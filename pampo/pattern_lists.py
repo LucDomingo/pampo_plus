@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 class PortuguesePatterns(object):
-    
+
     common_family_names = [
         u"Silva",
         u"Santos",
@@ -123,24 +123,21 @@ class PortuguesePatterns(object):
         u"do",
         u"de",
         u"para",
-        
+
     ]
-    
+
     tags_exclusions =[
-        u"v-fin",
-        u"num",
-        u"conj-c",
-        u"conj-s",
-        u"adv",
-        u"art",
-        u"prp",
-        u"pron-det",
-        u"pron-indp",
-        u"adj",
-        u"v-ger",
-        u"v-pcp",
+        u"AUX",
+        u"DET",
+        u"ADJ",
+        u"PRON",
+        u"ADV",
+        u"ADP",
+        u"VERB",
+        u"SYM",
+        u"CCONJ",
     ]
-    
+
     starters = [
         u"A",
         u"As",

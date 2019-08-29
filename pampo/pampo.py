@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import click
-from .ner import *
+from ner import *
 
 @click.command()
 @click.argument('input', type=click.File('rb'))
@@ -14,7 +14,7 @@ def main(input):
         if not chunk:
             break
 
-        content += chunk.decode("utf-8") 
+        content += chunk.decode("utf-8")
 
     entities = extract_entities(content)
     for entity in entities:

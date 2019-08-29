@@ -6,6 +6,9 @@ from unidecode import unidecode
 import unicodedata
 import sys
 import nltk
+import spacy
+import pt_core_news_sm
+nlp = pt_core_news_sm.load()
 
 def split_setences(text):
 	sentences = []
@@ -54,37 +57,51 @@ def build_regexpression():
 
     surnames = [surname for surname in pt_patterns.common_family_names]
     regex_surnames = "|".join(surnames)
-    
+
     regexp_2bat = regexp_2ba + "([[:space:]](e)[[:space:]](" + regex_surnames + ")){0,1}"
-    
+
     return regexp_2bat
 
 def extract_entities(text,deduplication=False):
     sentences = split_setences(text)
     text_preprocessed = remove_accents(text)
     text_preprocessed = remove_digits(text_preprocessed)
-    
+
     regexp2bat = build_regexpression()
     matches = re.finditer(regexp2bat, text_preprocessed)
-    
+
     pt_patterns = PortuguesePatterns()
-    
+
     phase_0_entities = []
     for matchNum, match in enumerate(matches):
         matchNum = matchNum + 1
-    
         phase_0_entities.append(match.group())
-    
-    unique_tokens = []
+    phase_1_entities = []
     for token in phase_0_entities:
+	    doc = nlp(token)
+	    prefix_pos=doc[0].pos_
+	    if(prefix_pos in pt_patterns.tags_exclusions):
+		    token=token.replace(doc[0].text,'',1)
+		    doc[0].pos_=''
+	    if(doc[0].pos_=='' and len(doc)>1):
+	        if(doc[1].pos_ in pt_patterns.tags_exclusions):
+		        token=token.replace(doc[1].text,'',1)
+	    if(token.strip()!=''):
+		    phase_1_entities.append(token)
+
+    unique_tokens = []
+    for token in phase_1_entities:
         if(token != '' and len(token) > 2):
             token = token.strip()
             if not(token in pt_patterns.stopwords or token in pt_patterns.preprositions):
-                
                 if(deduplication):
                     if not(token in unique_tokens):
                         unique_tokens.append(token)
                 else:
                     unique_tokens.append(token)
-                        
-    return unique_tokens
+
+    origin="("+"|".join(unique_tokens)+")" 
+    text=re.split(origin,text)
+    output={'text':text,'tokens':unique_tokens}
+
+    return output
