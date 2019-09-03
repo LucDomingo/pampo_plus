@@ -1,4 +1,4 @@
-# py-pampo
+# py-pampo-plus
 Python package for PAMPO (PAttern Matching and POs tagging based algorithm for NER)
 
 Package to extract named entities from texts written in Portuguese and potentially applicable to other languages
@@ -9,8 +9,9 @@ https://arxiv.org/abs/1612.09535
 
 ## Installation
 Using python3.
-
-	pip install git+https://github.com/LIAAD/py-pampo.git
+```sh
+	pip install git+https://github.com/arianpasquali/pampo_plus
+```
 
 ## Features
 Extract entities from Portuguese texts.
@@ -18,11 +19,13 @@ Extract entities from Portuguese texts.
 ## Usage
 
 To use PAMPO from the terminal:
-
+```sh
 	pampo [INPUT_FILE]
+```
 
 To use in a project:
 
+```python
 	import pampo
 
 	pt_news = """
@@ -36,37 +39,32 @@ To use in a project:
 
 	response = pampo.extract_entities(pt_news)
 
-	print("\n".join(response))
+	print("\n".join(response["tokens"]))
 
 	UFPB
 	Cariri Ocidental da Paraiba
-	Segundo
 	Lucindo Jose Quintans
-	Sem
-	Agora
 	Quintans
 	Cariri
-	Segundo
 	Nordeste
 	Cabaceiras
 	Cariri Ocidental
 	Sudene
-	Nos
 	Cariri Ocidental
-	No Estado da Paraiba
+	Estado da Paraiba
 	Lucindo Quintans
 	Cabaceiras
 	Cariri Ocidental
 	Borborema
 	Paraiba
 	Paraiba de Pernambuco
-	Segundo
 	Oceano Atlantico
 	Dados da Secretaria da Agricultura do Estado
 	Quintans
 	Fazendeiros
 	Estados
 	Quintans
+```
 
 ## Credits
 - Conceicao Rocha, Ph.D, conceicaonunesrocha@gmail.com
